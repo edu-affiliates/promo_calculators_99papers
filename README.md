@@ -3,11 +3,10 @@
 1. Download package as .zip (File name should be _promo_calculators_99papers-master.zip_) file or clone repository.  
 2. Copy file bundle.js (_promo_calculators_99papers-master.zip/dist/bundle.js_) to your website directory.
 3. Add spacial tags to your html markup:
-
-        * Main calculator ```<div class="edu-calc"></div>```
-        * Small calculator ```<div class="ecs"></div>```
-        * Order form with list of services ```<div id="UNIQUE_ID" class="edu-fast"></div>```
-        * Table with prices for special services ```<div id="renderTable"></div>```
+       * Main calculator __```<div class="edu-calc"></div>```__
+       * Small calculator __```<div class="ecs"></div>```__
+       * Order form with list of services __```<div id="UNIQUE_ID" class="edu-fast"></div>```__
+       * Table with prices for special services __```<div id="renderTable"></div>```__
         
 4. Set script tag with calculators options and Plugin this bundle script above the ```</body>```:
 

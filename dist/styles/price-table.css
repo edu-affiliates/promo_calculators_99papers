@@ -1,0 +1,327 @@
+#renderTable {
+  max-width: 960px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  position: relative;
+}
+
+#renderTable table {
+  max-width: 960px;
+  border: none;
+  margin-bottom: 80px; }
+
+#renderTable thead {
+  background-color: #23e1ca;
+  border-radius: 100px; }
+
+#renderTable th, #renderTable td {
+  text-align: center;
+  padding: 12px;
+  width: 16.5%; }
+#renderTable .selectedTd {
+  background: rgb(35, 225, 202);
+}
+#renderTable .headrow1 {
+  text-transform: uppercase; }
+
+#renderTable .headrow1 > th {
+  padding-top: 30px;
+  color: #fff; }
+
+#renderTable .headrow1 > th:first-child {
+  border-radius: 100px 0 0 0;
+  position: relative;
+  top: 40px;
+}
+
+#renderTable .headrow1 > th:last-child {
+  border-radius: 0 100px 0 0; }
+
+#renderTable thead > tr > th:first-child {
+  border-right: 1px solid #fff; }
+
+#renderTable thead > tr:last-child {
+  font-family: "FoundersGrotesk-Medium";
+  font-size: 18px;
+  line-height: 1.5;
+  letter-spacing: 0.4px;
+  text-align: center;
+  color: #30505a; }
+
+#renderTable tbody {
+  padding-top: 10px;
+  cursor: pointer; }
+/*#renderTable tr:nth-child(2n) {*/
+  /*background: #fff;*/
+/*}*/
+
+#renderTable tbody tr:nth-child(even){
+  background: #f2f0e2;}
+/*#renderTable tr:nth-child(3){*/
+  /*background: #f2f0e2!important;}*/
+#renderTable tr > th {
+  font-family: "FoundersGrotesk-Medium";
+  font-size: 22px;
+  font-weight: 500;
+  line-height: 1.23;
+  letter-spacing: 0.5px;
+  color: #30505a; }
+
+#renderTable thead > tr:last-child > th {
+  font-size: 21px;
+  border-right: 1px solid #fff;
+  padding-left: 10px;
+  padding-right: 10px; }
+
+#renderTable thead > tr:last-child > th:last-child {
+  border: none; }
+
+#renderTable tr > td {
+  font-family: "FoundersGrotesk-Regular";
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 1.35;
+  letter-spacing: 0.4px;
+  color: #30505a; }
+
+
+
+#renderTable tbody > tr:last-child > th:first-child {
+  border-radius: 0 0 0 40px; }
+
+#renderTable tbody > tr:last-child > td:last-child {
+  border-radius: 0 0 40px 0; }
+
+#renderTable .popup {
+  position: relative;
+  width: 221px;
+  height: 216px;
+  background-color: #30505a;
+  border-radius: 20px;
+  display: none;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center; }
+
+.cross__pop-up {
+  position: absolute;
+  background: url(https://99papers-1392.kxcdn.com/crossIcon.png) no-repeat center center #fff;
+  border-radius: 50%;
+  background-size: contain;
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+  top: -10px;
+  right: -10px; }
+
+#renderTable .popup:after {
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 0;
+  top: 216px;
+  left: 85px;
+  border-left: 30px solid transparent;
+  border-right: 30px solid transparent;
+  border-top: 40px solid #30505a; }
+
+#renderTable .popup > div {
+  width: 185px;
+  height: 40px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  border-bottom: 1px solid #23e1ca;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  margin-top: 12px; }
+
+#renderTable .popup > div:first-child > p:last-child {
+  font-family: "FoundersGrotesk-Regular";
+  font-size: 20px;
+  font-weight: 400;
+  margin-left: 15px;
+  letter-spacing: 0.3px;
+  color: #fff; }
+
+#renderTable .popup > div:nth-child(2) > div:nth-child(2) {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  background-color: #23e1ca;
+  width: 115px;
+  border-radius: 100px;
+  height: 40px;
+  margin-bottom: 12px; }
+
+#renderTable .popup > div:nth-child(2) > div:nth-child(2) > button:first-child,
+#renderTable .popup > div:nth-child(2) > div:nth-child(2) > button:last-child {
+  border-radius: 100px;
+  padding-left: 6px;
+  padding-right: 5px;
+  height: 38px;
+  width: 38px;
+  border: 2px solid #30505a;
+  margin-left: 2px;
+  margin-top: 1px;
+  background-color: #30505a;
+  font-family: "FoundersGrotesk-Semibold";
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 1.35;
+  letter-spacing: 0.4px;
+  padding-top: 6px;
+  color: #23e1ca;
+  cursor: pointer;
+  outline: none; }
+
+#renderTable .popup > div:nth-child(2) > div:nth-child(2) > button:last-child {
+  margin-left: 4px; }
+
+#renderTable .popup > div:nth-child(2) > div:nth-child(2) > p {
+  width: 23px;
+  font-family: "FoundersGrotesk-Light";
+  font-size: 20px;
+  font-weight: 300;
+  line-height: 0.85;
+  letter-spacing: 1.5px;
+  text-align: center;
+  margin-top: 15px;
+  margin-left: 5px;
+  color: #30505a; }
+
+#renderTable .popup > div:nth-child(2) > div:nth-child(2) > button:last-child {
+  font-family: "FoundersGrotesk-Regular";
+  font-size: 34px;
+  padding-top: 2px;
+  background-color: #23e1ca;
+  color: #30505a; }
+
+#renderTable .popup > div:nth-child(3) {
+  border: none; }
+
+#renderTable .price-count {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  margin-left: auto; }
+
+#renderTable .price-count > p:first-child {
+  font-family: "FoundersGrotesk-Regular";
+  font-size: 26px;
+  font-weight: 400;
+  letter-spacing: 0.7px;
+  color: #23e1ca;
+  margin-left: 15px;
+  margin-top: 2px;
+  height: 20px; }
+
+#renderTable .price-count > p:last-child {
+  font-family: "FoundersGrotesk-Semibold";
+  margin-left: 5px;
+  font-size: 28px;
+  font-weight: 600;
+  letter-spacing: 0.4px;
+  color: #fff; }
+
+#renderTable .popup > div > p:first-child {
+  font-family: "FoundersGrotesk-Medium";
+  font-size: 16px;
+  font-weight: 500;
+  width: 75px;
+  line-height: 1.06;
+  letter-spacing: 0.7px;
+  color: #23e1ca; }
+
+#renderTable .popup > button {
+  width: 150px;
+  height: 45px;
+  border-radius: 45px;
+  text-transform: uppercase;
+  font-family: 'FoundersGrotesk-Medium';
+  font-size: 13px;
+  color: white;
+  padding-top: 8px;
+  background-image: -webkit-linear-gradient(#ff7d54, #ff9242), -webkit-linear-gradient(#23e1ca, #23e1ca);
+  background-image: linear-gradient(#ff7d54, #ff9242), linear-gradient(#23e1ca, #23e1ca);
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.12), 0 0 1px 0 rgba(0, 0, 0, 0.83), inset 0 1px 0 0 rgba(255, 255, 255, 0.44);
+  border: none;
+  letter-spacing: 3px;
+  cursor: pointer;
+  text-shadow: 0 0 3px rgba(0, 0, 0, 0.24);
+  outline: none; }
+
+#renderTable .popup > button:hover {
+  border: 3px solid white; }
+
+#renderTable .popup > button:active {
+  border: 3px solid white;
+  background-color: #253f47;
+  background-image: none;
+  box-shadow: none; }
+
+@media only screen and (max-width: 1023px) {
+  #renderTable > div {
+    max-width: 768px; }
+  #renderTable table {
+    width: 96%;
+    margin-left: 2%;
+    margin-right: 2%; }
+  #renderTable > div > div {
+    margin-left: 2%;
+    margin-right: 2%; } }
+
+@media only screen and (max-width: 767px) {
+  #renderTable .headrow1 > th:first-child {
+    border-radius: 10px 0 0 0;
+
+
+  }
+  #renderTable .headrow1 > th:last-child {
+    border-radius: 0 10px 0 0; }
+  #renderTable tbody > tr:last-child > th:first-child {
+    border-radius: 0 0 0 10px; }
+  #renderTable tbody > tr:last-child > td:last-child {
+    border-radius: 0 0 10px 0; }
+  #renderTable > div {
+    width: 100%; }
+  #renderTable .popup:after {
+    display: none; }
+  #renderTable table {
+    width: 96%; }
+  #renderTable .headrow1 > th {
+    padding-top: 10px;
+    padding-bottom: 0px; }
+  #renderTable th, #renderTable td {
+    padding: 7px 0 7px 0; }
+  #renderTable td {
+    padding-top: 0px;
+    padding-bottom: 0px; }
+  #renderTable thead {
+    border-radius: 50px; }
+  #renderTable tr > th {
+    font-size: 14px; }
+  #renderTable thead > tr:last-child {
+    font-size: 13px; }
+  #renderTable thead > tr:last-child > th {
+    font-size: 12px;
+    padding-left: 2px;
+    padding-right: 2px; }
+  #renderTable tr > td {
+    font-size: 14px; } }
+
+@media only screen and (max-width: 320px) {
+  #renderTable thead > tr:last-child > th {
+    font-size: 10px; }
+  #renderTable tr > th {
+    font-size: 12px; } }

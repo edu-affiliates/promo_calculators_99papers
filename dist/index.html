@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <title>Title</title>
+    <link rel="stylesheet" href="styles/style.css">
+</head>
+<body>
+    <div class="wrapper">
+        <div class="row">
+            <div id="edu-fast-1" class="edu-fast"></div>
+        </div>
+        <div class="row calc">
+            <div class="edu-calc"></div>
+        </div>
+
+        <div class="row">
+            <div class="ecs"></div>
+        </div>
+        <div class="row">
+            <div id="renderTable"></div>
+        </div>
+    </div>
+<!--    <script>
+        var eduOptions =  {
+            'rangeColorChecked': "#ffed7b",
+            'rangeColor': "#23e1ca",
+            'rid': 1228
+        }
+    </script>-->
+    <script>
+        var eduOptions =  {
+            'hostname': '99papers.com',
+            'rangeColorChecked': "#ffed7b", //for main calculator
+            'rangeColor': "#23e1ca", //for main calculator
+            'website_id': 432,
+            'service_ids': '1674, 1675, 1673, 1690', //this services will show at table and main calculator as main buttons
+            'apiMode': 'M',
+        }
+    </script>
+<script src="bundle.js"></script>
+</body>
+</html>

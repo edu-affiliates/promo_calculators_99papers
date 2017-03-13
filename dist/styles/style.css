@@ -1,0 +1,66 @@
+
+
+@import url(reset.css);
+@import url(edu-calc.css);
+@import url(edu-calc-small.css);
+@import url(price-table.css);
+@import url(fast-order.css);
+
+@font-face {
+    font-family: 'FoundersGrotesk-Medium';
+    src: url(../fonts/FoundersGrotesk-Medium.otf)
+}
+
+@font-face {
+    font-family: 'FoundersGrotesk-Light';
+    src: url(../fonts/FoundersGrotesk-Light.otf)
+}
+
+@font-face {
+    font-family: 'FoundersGrotesk-Regular';
+    src: url(../fonts/FoundersGrotesk-Regular.otf)
+}
+
+@font-face {
+    font-family: 'FoundersGrotesk-Semibold';
+    src: url(../fonts/FoundersGrotesk-Semibold.otf)
+}
+
+@font-face {
+    font-family: 'FoundersGrotesk-Bold';
+    src: url(../fonts/FoundersGrotesk-Bold.otf)
+}
+
+@font-face {
+    font-family: 'FoundersGrotesk-RegularItalic';
+    src: url(../fonts/FoundersGrotesk-RegularItalic.otf)
+}
+
+@font-face {
+    font-family: 'FoundersGrotesk-LightItalic';
+    src: url(../fonts/FoundersGrotesk-LightItalic.otf)
+}
+
+
+.wrapper{
+
+    min-height: 100vh;
+    width: 100vw;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+
+}
+.row {
+    flex: 0 0 auto;
+    padding: 20px 0;
+}
+
+.calc {
+    background-color: #30505a;
+    padding: 20px;
+    border-radius: 20px;
+}
+

@@ -2,7 +2,14 @@
 
 1. Download package as .zip (File name should be _promo_calculators_99papers-master.zip_) file or clone repository.  
 2. Copy file bundle.js (_promo_calculators_99papers-master.zip/dist/bundle.js_) to your website directory.
-3. Set script tag with calculators options and Plugin this bundle script above the ```</body>```:
+3. Add spacial tags to your html markup:
+
+        * Main calculator ```<div class="edu-calc"></div>```
+        * Small calculator ```<div class="ecs"></div>```
+        * Order form with list of services ```<div id="UNIQUE_ID" class="edu-fast"></div>```
+        * Table with prices for special services ```<div id="renderTable"></div>```
+        
+4. Set script tag with calculators options and Plugin this bundle script above the ```</body>```:
 
 ### if your site (YOURSITE.COM) **doesn't** have own WHITE LABEL APPLICATION on the MY.YOURSITE.COM subdomain.
 

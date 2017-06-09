@@ -45,10 +45,21 @@ module.exports = {
 if(NODE_ENV == 'production'){
 	module.exports.plugins.push(
 		new webpack.optimize.UglifyJsPlugin({
+            // beautify: true,
 			minimize: true,
 			warnings: false,
 			drop_console: true,
 			unsafe: true
 		})
 	)
+    new webpack.optimize.CommonsChunkPlugin({
+        name: "vendor",
+
+        // filename: "vendor.js"
+        // (Give the chunk a different name)
+
+        minChunks: Infinity,
+        // (with more entries, this ensures that no other module
+        //  goes into the vendor chunk)
+    })
 }

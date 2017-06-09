@@ -3,6 +3,7 @@ import {calcOption} from "./calc-option";
 import {CalcLogic} from "./calc-logic";
 import {dataFactory} from "../dataFactory/dataFactory";
 import { generalOptions } from '../generalOtions/generalOptions';
+import {helper} from '../helper/helper';
 
 class CalcEventListener {
 	constructor(CalcLogicClass) {
@@ -24,7 +25,11 @@ class CalcEventListener {
 
 	rangeEventsListner() {
 		document.getElementsByClassName("range-labels")[0].addEventListener('click', this.rangeLabelsCallbackClick.bind(this));
-		document.getElementById("range").addEventListener('input', this.rangeCallbackDrug.bind(this));
+		if (helper.isIE()) {
+            document.getElementById("range").addEventListener('change', this.rangeCallbackDrug.bind(this));
+		} else {
+        document.getElementById("range").addEventListener('input', this.rangeCallbackDrug.bind(this));
+		}
 	}
 
 
@@ -46,7 +51,8 @@ class CalcEventListener {
 				this.calcLogic.colorButton(e);
 				calcBuild.renderButton("level", nameButton);
 				this.calcLogic.checkCountPage();
-				this.calcLogic.getPricing(calcOption.memoryStates.service);
+				// this.calcLogic.getPricing(calcOption.memoryStates.service);
+                this.calcLogic.displayPrice();
 			}
 
 			this.calcLogic.checkCountPage();
@@ -62,7 +68,8 @@ class CalcEventListener {
 				this.calcLogic.colorButton(e);
 				calcBuild.renderRangeSlider(true);
 				this.calcLogic.checkCountPage();
-				this.calcLogic.getPricing(calcOption.memoryStates.service);
+				// this.calcLogic.getPricing(calcOption.memoryStates.service);
+                this.calcLogic.displayPrice();
 			}
 
 			this.calcLogic.checkCountPage();
@@ -80,7 +87,8 @@ class CalcEventListener {
 			} else {
 				calcBuild.renderButton("level", calcOption.memoryStates.service);
 				this.calcLogic.checkCountPage();
-				this.calcLogic.getPricing(calcOption.memoryStates.service);
+				// this.calcLogic.getPricing(calcOption.memoryStates.service);
+                this.calcLogic.displayPrice();
 			}
 
 			this.calcLogic.displayListsNameButton("hide");
@@ -90,7 +98,7 @@ class CalcEventListener {
 	}
 
 	rangeLabelsCallbackClick(e) {
-
+		console.log('click');
 		let childNodes = Array.prototype.slice.call(e.target.parentNode.childNodes);
 		let index = Number(childNodes.indexOf(e.target));
 		calcOption.rangerStates.index = index + 1;
@@ -110,7 +118,8 @@ class CalcEventListener {
 			calcOption.memoryStates.deadline = nameDeadline;
 			this.calcLogic.movePopUp(index + 1);
 			this.calcLogic.colorRange(childNodes, index + 1);
-			this.calcLogic.getPricing(calcOption.memoryStates.deadline);
+			this.calcLogic.displayPrice();
+			// this.calcLogic.getPricing(calcOption.memoryStates.deadline);
 			this.calcLogic.checkCountPage();
 		}
 	}
@@ -130,7 +139,8 @@ class CalcEventListener {
 			calcOption.memoryStates.deadline = nameDeadline;
 			this.calcLogic.colorRange(childNodes, index);
 			this.calcLogic.movePopUp(index);
-			this.calcLogic.getPricing(calcOption.memoryStates.deadline);
+			// this.calcLogic.getPricing(calcOption.memoryStates.deadline);
+            this.calcLogic.displayPrice();
 			this.calcLogic.checkCountPage();
 		}
 	}
@@ -182,12 +192,16 @@ class CalcEventListener {
         if (generalOptions.apiMode !== 'M') {
             redirectTo += `&rid=${generalOptions.rid}`
 		}
+        // if(!!generalOptions.dsc){
+        //     redirectTo += `&dsc=${generalOptions.dsc}`
+        // }
+
 		location.href = redirectTo;
 	}
 
 	addNewServiceTree(values) {
 		let newServiceTree = {};
-		dataFactory.getData(values).done(response => {
+		dataFactory.getData(values).then(response => {
 
 				dataFactory.sortedData(JSON.parse(response).info.services_tree, newServiceTree);
 				Object.assign(dataFactory.servicesTrees, newServiceTree);
@@ -198,9 +212,9 @@ class CalcEventListener {
 
 				calcBuild.renderButton("level", calcOption.memoryStates.service);
 				this.calcLogic.checkCountPage();
-				this.calcLogic.getPricing(calcOption.memoryStates.service);
+				this.calcLogic.displayPrice();
 			})
-			.fail(error => console.error(error));
+			.catch(error => console.error(error));
 	}
 
 	sortList() {

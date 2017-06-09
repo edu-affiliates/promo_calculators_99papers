@@ -56,6 +56,10 @@
 .row {
     flex: 0 0 auto;
     padding: 20px 0;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-around;
+    align-content: center;
 }
 
 .calc {

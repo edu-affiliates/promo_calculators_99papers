@@ -21,7 +21,7 @@
   margin: 0 0 0 auto;
   background: rgba(32, 56, 63, 0.84) url("https://99papers-1392.kxcdn.com/pay-icons-gray.png") no-repeat center calc(100% - 10px)/80% auto; }
 
-.ecs > *:not(:first-child) {
+.ecs > *:not(:first-child):not(:nth-child(2)) {
   -webkit-box-flex: 0;
   -ms-flex: 0 1 100%;
   flex: 0 1 100%;
@@ -99,7 +99,17 @@
   padding: 32px 10px 10px 10px;
   width: 184px;
   border-radius: 0px 0px 20px 20px;
-  left: 24px; }
+  left: 24px;
+  overflow-y: hidden;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.2s ease-in-out 0s, visibility 0s linear 0.3s, z-index 0s linear 0.01s;
+}
+.ecs__list__wrapper--open{
+  opacity: 1;
+  visibility: visible;
+  transition-delay: 0s, 0s, 0.3s;
+}
 
 .ecs__list--dropdown {
   /*border: 1px solid #23ded5;*/
@@ -292,18 +302,47 @@
   text-align: right;
   color: #23e1ca;
   /*margin-top: 14px;*/ }
-
+.ecs__prices{
+  white-space: nowrap;
+  position: relative;
+}
 .ecs__price__value {
+  /*margin-left: auto;*/
+  /*flex: 0 0 auto;*/
   font-family: FoundersGrotesk-Regular;
   font-size: 29px;
   color: #23e1ca;
   position: relative;
-  top: 7px; }
+  top: 10px;
+  padding-left: 2px;
+}
 
 .ecs__price__value::before {
   content: '$';
-  font-size: 0.7em; }
+   }
 
+.ecs__price__old{
+  position: relative;
+  top: 11px;
+  font-family: FoundersGrotesk-Light;
+  font-size: 20px;
+  color: #fff;
+
+
+}
+.ecs__price__old::before {
+  content: '$';
+
+}
+.ecs__price__old__line {
+  position: absolute;
+  display: block;
+  background: #f6a623;
+  width: 30px;
+  height: 2px;
+  top: -5px;
+
+}
 .ecs__btns {
   display: -webkit-box;
   display: -ms-flexbox;

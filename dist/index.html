@@ -7,40 +7,133 @@
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <title>Title</title>
     <link rel="stylesheet" href="styles/style.css">
+    <script type="javascript">
+        var iOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+        if(iOS) {
+            var head  = document.getElementsByTagName('head')[0];
+            var link  = document.createElement('link');
+            link.rel  = 'stylesheet';
+            link.type = 'text/css';
+            link.href = 'styles/iphone.css';
+            link.media = 'all';
+            head.appendChild(link);
+        }
+    </script>
 </head>
 <body>
     <div class="wrapper">
         <div class="row">
+            <div  class="edu-custom-btn" data-type="order">Order</div>
+            <div  class="edu-custom-btn" data-type="inquiry">Inquiry</div>
+            <div  class="edu-custom-btn" data-type="dashboard">dashboard</div>
+        </div>
+        <div class="row">
             <div id="edu-fast-1" class="edu-fast"></div>
         </div>
         <div class="row calc">
-            <div class="edu-calc"></div>
+            <div class="edu-calc__title--shown-dsc"><span class="edu-calc_title_dsc--percent"></span>% OFF YOUR FIRST ORDER!<br>LIMITED TIME!</div>
+            <div class="edu-calc__title--hidden-dsc">Get a quick estimate</div>
+            <div class="edu-calc"
+                 data-order-btn="Order now"
+                 data-inquiry-btn="Free quote"
+            ></div>
         </div>
 
         <div class="row">
-            <div class="ecs"></div>
+            <div
+                    id='ecs-1'
+                    class="ecs"
+                    data-default-service="Essay"
+                    data-default-level="High School"
+                    data-default-deadline="15 days +"
+
+            >
+                <div class="ecs__title ecs__title--shown-dsc"><span class="ecs__title_dsc-percent"></span>% OFF YOUR FIRST ORDER!<br>LIMITED TIME!</div>
+                <div class="ecs__title ecs__title--hidden-dsc">Get a quick estimate</div>
+                <!--TITLE-->
+
+                <!--SERVICES-->
+                <div class="ecs__service ecs__list">
+                    <span class="ecs__service__current">Essay</span>
+                </div>
+                <div class="ecs__list__wrapper ecs__list__wrapper--service">
+                    <input class="ecs__sort-list" placeholder="Type the Name of Service" type="text">
+                    <ul class="ecs__list--dropdown ecs__service__list"></ul>
+                </div>
+
+
+                <!--LEVELS-->
+                <div class="ecs__level ecs__list">
+                    <span class="ecs__level__current">High School</span>
+                </div>
+                <div class="ecs__list__wrapper ecs__list__wrapper--level">
+                    <ul class="ecs__list--dropdown ecs__level__list"></ul>
+                </div>
+
+
+                <!-- DEADLINES -->
+                <div class="ecs__deadline ecs__list">
+                    <span class="ecs__deadline__current">6 Hours</span>
+                </div>
+                <div class="ecs__list__wrapper ecs__list__wrapper--deadline">
+                    <ul class="ecs__list--dropdown ecs__deadline__list"></ul>
+                </div>
+
+
+                <!-- PAGE COUNT-->
+                <div class="ecs__page-count">
+                    <div class="ecs__minus-btn">-</div>
+                    <span>
+                            <input type="number" min="1" max='30' class="ecs__page-input" value="1">
+                            <span class="ecs__page--subtitle">page</span>
+                        </span>
+                    <div class="ecs__plus-btn">+</div>
+                </div>
+
+                <!--PRICE-->
+                <div class="ecs__price">
+                    <span class="ecs__price__title">Estimate price:</span>
+                    <span class="ecs__prices">
+                            <span class="ecs__price__old">10</span>
+                            <span class="ecs__price__value">$9</span>
+                            <span class="ecs__price__old__line"></span>
+                        </span>
+
+                </div>
+
+                <!--BUTTON-->
+                <div class="ecs__btns">
+                    <div class="ecs__btn ecs__btn--inquiry">FREE QUOTE</div>
+                    <div class="ecs__btn ecs__btn--order">ORDER NOW</div>
+                </div>
+            </div>
         </div>
+
         <div class="row">
             <div id="renderTable"></div>
         </div>
     </div>
-<!--    <script>
+    <script>
         var eduOptions =  {
             'rangeColorChecked': "#ffed7b",
             'rangeColor': "#23e1ca",
-            'rid': 1228
-        }
-    </script>-->
-    <script>
-        var eduOptions =  {
-            'hostname': '99papers.com',
-            'rangeColorChecked': "#ffed7b", //for main calculator
-            'rangeColor': "#23e1ca", //for main calculator
-            'website_id': 432,
-            'service_ids': '1674, 1675, 1673, 1690', //this services will show at table and main calculator as main buttons
-            'apiMode': 'M',
+            'rid': 1228,
+            'dsc': '',
+            'dev_mode': false
         }
     </script>
+    <!--<script>-->
+        <!--var eduOptions =  {-->
+            <!--'hostname': '99papers.com',-->
+            <!--'rangeColorChecked': "#ffed7b", //for main calculator-->
+            <!--'rangeColor': "#23e1ca", //for main calculator-->
+            <!--'website_id': 432,-->
+            <!--'service_ids': '1674, 1675, 1673, 1690', //this services will show at table and main calculator as main buttons-->
+            <!--'apiMode': 'M',-->
+            <!--'segment_id': 'A',-->
+            <!--'dsc': '5F36A269'-->
+        <!--}-->
+    <!--</script>-->
 <script src="bundle.js"></script>
 </body>
 </html>

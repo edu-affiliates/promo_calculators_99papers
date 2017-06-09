@@ -1,20 +1,39 @@
-import {calcEventListener} from "./ecs-calc-event-listner";
+import {CalcEventListener} from "./ecs-calc-event-listner";
 import {CalcLogic} from "./ecs-calc-logic";
-import {calcOption} from "./ecs-calc-option";
+import {CalcOption} from "./ecs-calc-option";
 import {dataFactory} from "../dataFactory/dataFactory";
+import {helper} from "../helper/helper";
 
-class CalcBuild {
-    constructor(CalcLogicClass) {
-        this.calcLogic = CalcLogicClass;
 
+export class SmallCalculator {
+    constructor(calcID, options) {
+
+        this.calcID = calcID;
+        this.options = options;
+        this.orderBtnName = (options.orderBtn !== undefined) ? options.orderBtn : 'Order';
+        this.inquiryBtnName = (options.inquiryBtn !== undefined) ? options.inquiryBtn : 'Inquiry';
+        this.calcOption = new CalcOption(options, this, calcID);
+        this.calcLogic = new CalcLogic( calcID, this.calcOption );
+        this.calcEventListener = new CalcEventListener(this.calcLogic, this,  this.calcOption, calcID);
+
+        this.build = () => {
+            this.calcLogic.hideDiscount();
+            this.renderListOfServices();
+            this.renderListOfLevels();
+            this.renderListOfDeadlines();
+            this.calcLogic.setCountPages();
+            this.calcEventListener.addEventListeners();
+            this.calcOption.hideDefaultsOptions();
+        };
+        this.calcOption.setDefaultMemoryStates();
     }
 
     buildDomCalc() {
-    	let refElem = document.querySelector('.ecs');
+
+    	let refElem = document.querySelector(`#${this.calcID}`);
 
     	let calcTemplate = `<!--TITLE-->
-                    <div class="ecs__title">Get a quick estimate</div>
-
+                    
                     <!--SERVICES-->
                     <div class="ecs__service ecs__list">
                         <span class="ecs__service__current">Essay</span>
@@ -55,40 +74,31 @@ class CalcBuild {
 
                     <!--PRICE-->
                     <div class="ecs__price">
-                        <span class="ecs__price__title">Estimate price:</span><span class="ecs__price__value">$42.20</span>
+                        <span class="ecs__price__title">Estimate price:</span>
+                        <span class="ecs__prices">
+                            <span class="ecs__price__old">5</span>
+                            <span class="ecs__price__value">$42.20</span>
+                            <span class="ecs__price__old__line"></span>
+                        </span>
+                        
                     </div>
 
                     <!--BUTTON-->
                     <div class="ecs__btns">
-                        <div class="ecs__btn ecs__btn--inquiry">Inquiry</div>
-                        <div class="ecs__btn ecs__btn--order">Order</div>
+                        <div class="ecs__btn ecs__btn--inquiry">${this.inquiryBtnName}</div>
+                        <div class="ecs__btn ecs__btn--order">${this.orderBtnName}</div>
                     </div>`;
 
-    	refElem.insertAdjacentHTML("afterbegin", calcTemplate);
+    	refElem.insertAdjacentHTML("beforeend", calcTemplate);
 
     };
 
-    build() {
-
-        this.renderListOfServices();
-        this.renderListOfLevels();
-
-        this.renderListOfDeadlines();
-        this.calcLogic.setCountPages();
-
-        calcEventListener.addEventListeners();
-    }
-
-
     renderListOfServices() {
-        //todo condition
-        let $serviceList = document.querySelector(".ecs__service__list");
-        let $serviceCurrent = document.querySelector(".ecs__service__current");
+        let $serviceList = document.querySelector(`#${this.calcID} .ecs__service__list`);
+        let $serviceCurrent = document.querySelector(`#${this.calcID} .ecs__service__current`);
+        let service_name = this.calcOption.memoryStates.service;
 
-        let service_name = calcOption.memoryStates.service;
-
-
-        Object.keys(dataFactory.servicesTrees).forEach(service => {
+        for (let service of Object.keys(dataFactory.servicesTrees)) {
 
             let $selectOption = document.createElement('li');
             $selectOption.classList.add("ecs__select-option--service");
@@ -97,8 +107,9 @@ class CalcBuild {
             $selectOption.setAttribute("data-value", dataFactory.servicesTrees[service].name);
             $selectOption.innerHTML = dataFactory.servicesTrees[service].name;
             $serviceList.appendChild($selectOption);
-        });
-        Object.keys(dataFactory.servicesList).forEach(service => {
+        }
+
+        for (let service of Object.keys(dataFactory.servicesList)) {
             let $selectOption = document.createElement('li');
             $selectOption.classList.add("ecs__select-option--service");
             $selectOption.classList.add("ecs__select-option");
@@ -106,28 +117,26 @@ class CalcBuild {
             $selectOption.setAttribute("data-value", dataFactory.servicesList[service].name);
             $selectOption.innerHTML = dataFactory.servicesList[service].name;
             $serviceList.appendChild($selectOption);
-        });
+        }
 
 
-        $serviceCurrent.innerHTML = calcEventListener.inputLengthFilter(service_name);
+        $serviceCurrent.innerHTML = helper.inputLengthFilter(service_name);
 
         this.renderListOfLevels();
     }
 
     renderListOfLevels() {
-
-        let service_name = calcOption.memoryStates.service;
-        let level_name = calcOption.memoryStates.level;
-        let $levelList = document.querySelector(".ecs__level__list");
-
-        let $levelCurrent = document.querySelector(".ecs__level__current");
+        let service_name = this.calcOption.memoryStates.service;
+        let level_name = this.calcOption.memoryStates.level;
+        let $levelList = document.querySelector(`#${this.calcID} .ecs__level__list`);
+        let $levelCurrent = document.querySelector(`#${this.calcID} .ecs__level__current`);
 
         $levelList.innerHTML = '';
         renderLevels(service_name);
 
 
         function renderLevels(service_name) {
-            Object.keys(dataFactory.servicesTrees[service_name].level).forEach(level => {
+            for (let level of Object.keys(dataFactory.servicesTrees[service_name].level)){
                 let $selectOption = document.createElement('li');
                 $selectOption.classList.add("ecs__select-option");
                 $selectOption.classList.add("ecs__select-option--level");
@@ -144,40 +153,42 @@ class CalcBuild {
                 }
 
                 $levelList.appendChild($selectOption);
-            });
+            }
 
-            $levelCurrent.innerHTML = calcEventListener.inputLengthFilter(level_name);
+            if (level_name === 'Undergraduate (1st and 2nd year)') {
 
+                $levelCurrent.innerHTML = helper.inputLengthFilter("Undergrad. (yrs 1-2)");
+            }
+            else if (level_name === 'Undergraduate (3rd and 4th year)') {
+
+                $levelCurrent.innerHTML = helper.inputLengthFilter("Undergrad. (yrs 3-4)");
+            }
+            else {
+                $levelCurrent.innerHTML = helper.inputLengthFilter(level_name);
+            }
         }
-
     }
 
     renderListOfDeadlines() {
-
-        let service_name = calcOption.memoryStates.service;
-        let level_name = calcOption.memoryStates.level;
-        let $deadlineList = document.querySelector(".ecs__deadline__list");
-        let $deadlineCurrent = document.querySelector(".ecs__deadline__current");
-
-        let deadline_name = calcOption.memoryStates.deadline;
+        let service_name = this.calcOption.memoryStates.service;
+        let level_name = this.calcOption.memoryStates.level;
+        let $deadlineList = document.querySelector(`#${this.calcID} .ecs__deadline__list`);
+        let $deadlineCurrent = document.querySelector(`#${this.calcID} .ecs__deadline__current`);
+        let deadline_name = this.calcOption.memoryStates.deadline;
 
         $deadlineList.innerHTML = '';
-        Object.keys(dataFactory.servicesTrees[service_name].level[level_name].deadline).forEach(deadline => {
-
+        for (let deadline of Object.keys(dataFactory.servicesTrees[service_name].level[level_name].deadline)){
             let $selectOption = document.createElement('li');
             $selectOption.classList.add("ecs__select-option");
             $selectOption.classList.add("ecs__select-option--deadline");
             $selectOption.innerHTML = deadline;
             $deadlineList.appendChild($selectOption);
-
-        });
+        }
         $deadlineCurrent.innerHTML = deadline_name;
-
-
     }
 
 }
 
 
 
-export let calcBuild = new CalcBuild(new CalcLogic());
+

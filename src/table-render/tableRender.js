@@ -32,10 +32,11 @@ var tableRender = (function() {
 
 		for (var _nameEssey in data.level) {
 
-			for (var deadline in data.level[_nameEssey].deadline) {
+			for (let deadline of Object.keys(data.level[_nameEssey].deadline).reverse()) {
 
 				if (arrayDeadline[deadline]) {} else {
 					arrayDeadline[deadline] = deadline;
+
 					$templateTable += '<tr><th>' + deadline + '</th>';
 					for (var _nameEssey2 in data.level) {
 						$templateTable += '<td data-service="' + data.id + '" data-level="' + data.level[_nameEssey2].id + '" \n\t\t\t\t\t\t\t\t\t\t\tdata-pricing="' + data.level[_nameEssey2].deadline[deadline].id + '">$ ' + data.level[_nameEssey2].deadline[deadline].price + '</td>';
@@ -86,27 +87,32 @@ var tableRender = (function() {
 
 		body.onclick = function (event) {
 			var leftCoor, topCoor;
-			if (searchElem("pricing-table")) {
-				if (event.target.tagName == "TD") {
-					sourceBottom = window.pageYOffset;
-					if (width >= 767) {
-						leftCoor = event.target.offsetLeft - 0.5 * popup.width() + 0.5 * event.target.offsetWidth ;
-						sourceBottom = 857;
-						showPopUp(sourceBottom, leftCoor);
-						dataObject.service = event.srcElement.getAttribute("data-service");
-						dataObject.level = event.srcElement.getAttribute("data-level");
-						dataObject.price = event.srcElement.getAttribute("data-pricing");
-					} else {
-						leftCoor = ($(document).width() - popup.width()) / 2;
-						showPopUp(sourceBottom, leftCoor);
-					}
-				} else if (searchPath(popup[0], event.path)) {} else {
-					popup[0].style.display = "none";
-					// trodd.css("background", "#fff");
-					// treven.css("background", "#f2f0e2");
-                    trodd.removeClass('selectedTd');
-                    treven.removeClass('selectedTd');
-				}
+
+			try{
+                if (searchElem("pricing-table")) {
+                    if (event.target.tagName == "TD") {
+                        sourceBottom = window.pageYOffset;
+                        if (width >= 767) {
+                            leftCoor = event.target.offsetLeft - 0.5 * popup.width() + 0.5 * event.target.offsetWidth ;
+                            sourceBottom = 857;
+                            showPopUp(sourceBottom, leftCoor);
+                            dataObject.service = event.srcElement.getAttribute("data-service");
+                            dataObject.level = event.srcElement.getAttribute("data-level");
+                            dataObject.price = event.srcElement.getAttribute("data-pricing");
+                        } else {
+                            leftCoor = ($(document).width() - popup.width()) / 2;
+                            showPopUp(sourceBottom, leftCoor);
+                        }
+                    } else if (searchPath(popup[0], event.path)) {} else {
+                        popup[0].style.display = "none";
+                        // trodd.css("background", "#fff");
+                        // treven.css("background", "#f2f0e2");
+                        trodd.removeClass('selectedTd');
+                        treven.removeClass('selectedTd');
+                    }
+                }
+			} catch(e){
+
 			}
 		};
 
@@ -167,6 +173,9 @@ var tableRender = (function() {
             if (generalOptions.apiMode !== 'M') {
                 redirectTo += `&rid=${generalOptions.rid}`
             }
+            // if (!!generalOptions.dsc) {
+            //     redirectTo+=`&dsc=${generalOptions.dsc}`;
+            // }
             location.href = redirectTo;
 		}
 

@@ -3,6 +3,7 @@ import { dataFactory } from "../dataFactory/dataFactory";
 
 export class CalcLogic {
 	constructor() {
+
 	}
 
 	displayListsNameButton(show) {
@@ -130,25 +131,51 @@ export class CalcLogic {
 			}
 		}
 	}
+	getPrice(){
+		try{
+            calcOption.defaultsOptions.price = dataFactory.servicesTrees[calcOption.memoryStates.service]
+                .level[calcOption.memoryStates.level]
+                .deadline[calcOption.memoryStates.deadline]
+                .price;
+            calcOption.defaultsOptions.maxPages = dataFactory.servicesTrees[calcOption.memoryStates.service].level[calcOption.memoryStates.level].deadline[calcOption.memoryStates.deadline].max_pages;
+            calcOption.defaultsOptions.minPages = dataFactory.servicesTrees[calcOption.memoryStates.service].level[calcOption.memoryStates.level].deadline[calcOption.memoryStates.deadline].min_pages;
 
-	getPricing() {
-		let getPrice = function () {
-			calcOption.defaultsOptions.price = dataFactory.servicesTrees[calcOption.memoryStates.service].level[calcOption.memoryStates.level].deadline[calcOption.memoryStates.deadline].price;
-			calcOption.defaultsOptions.maxPages = dataFactory.servicesTrees[calcOption.memoryStates.service].level[calcOption.memoryStates.level].deadline[calcOption.memoryStates.deadline].max_pages;
-			calcOption.defaultsOptions.minPages = dataFactory.servicesTrees[calcOption.memoryStates.service].level[calcOption.memoryStates.level].deadline[calcOption.memoryStates.deadline].min_pages;
-			this.displayPrice();
-		};
-
-		if (calcOption.memoryStates.service != "name" && calcOption.memoryStates.service != "Choose Other" && calcOption.memoryStates.level != "name" && calcOption.memoryStates.deadline != "name") {
-			getPrice.call(this);
-		}
+        } catch(e){}
+       let estimatePrice = calcOption.defaultsOptions.price * calcOption.defaultsOptions.countPages;
+		return estimatePrice.toFixed(2);
 	}
+    getPriceWithDiscount () {
+        let coef = 1 - (calcOption.memoryStates.discount_amount / 100);
+        let newPrice = this.getPrice() * coef;
+        return newPrice.toFixed(2);
+    }
+	// getPricing() {
+	// 	let getPrice = () => {
+	//
+	//
+	// 	};
+     //
+    //
+	// 	if (calcOption.memoryStates.service != "name" && calcOption.memoryStates.service != "Choose Other" && calcOption.memoryStates.level != "name" && calcOption.memoryStates.deadline != "name") {
+	// 		// getPrice.call(this);
+     //        this.displayPrice();
+	// 	}
+	// }
 
 	displayPrice() {
 		let $displayPrice = document.getElementById("s_f_count_page");
-		let $displayCountWords = document.getElementById("calc-word");
-		$displayPrice.innerHTML = (calcOption.defaultsOptions.price * calcOption.defaultsOptions.countPages).toFixed(2);
-		$displayCountWords.innerHTML = (275 * calcOption.defaultsOptions.countPages);
+		// let $displayCountWords = document.getElementById("calc-word");
+        let $discountPrice = document.querySelector(`#discount-price`);
+		// $displayPrice.innerHTML = (calcOption.defaultsOptions.price * calcOption.defaultsOptions.countPages).toFixed(2);
+		// $displayCountWords.innerHTML = (275 * calcOption.defaultsOptions.countPages);
+
+        if (calcOption.memoryStates.discount_amount > 0){
+            $discountPrice.innerHTML = this.getPrice();
+            $displayPrice.innerHTML = this.getPriceWithDiscount();
+
+        } else {
+            $displayPrice.innerHTML = this.getPrice();
+        }
 	}
 
 	setCountPages() {
@@ -172,6 +199,33 @@ export class CalcLogic {
 			this.displayPrice();
 		}
 	}
+    hideDiscount(){
+        let oldPrice = document.querySelector(`.calculator__cost-usd`);
+        let calcTitleWithoutDsc = document.querySelector(`.edu-calc__title--hidden-dsc`);
+        let calcTitleWithDsc= document.querySelector(`.edu-calc__title--shown-dsc`);
+        oldPrice.style.display = 'none';
+        if (calcTitleWithoutDsc) calcTitleWithoutDsc.style.display = 'block';
+        if (calcTitleWithDsc) calcTitleWithDsc.style.display = 'none';
+
+    }
+    showDiscount(discount_amount){
+
+        let oldPrice = document.querySelector(`.calculator__cost-usd`);
+        let dscPercent = document.querySelector(`.edu-calc_title_dsc--percent`);
+        let calcTitleWithoutDsc = document.querySelector(`.edu-calc__title--hidden-dsc`);
+        let calcTitleWithDsc= document.querySelector(`.edu-calc__title--shown-dsc`);
+        if (calcTitleWithoutDsc) calcTitleWithoutDsc.style.display = 'none';
+        if (calcTitleWithDsc) calcTitleWithDsc.style.display = 'block';
+        if (dscPercent) dscPercent.innerHTML = discount_amount;
+
+        oldPrice.style.display = 'block';
+    }
+
+    setCoupon(discount_amount){
+        calcOption.memoryStates.discount_amount = discount_amount;
+        this.showDiscount(discount_amount);
+        this.displayPrice();
+    }
 
 	//====== const OPTION_WIDTH = this.calcLogic.getStyleRuleValue('width', '.range-labels__step'); ======
 	//====== const OPTION_WIDTH = 5px; =============

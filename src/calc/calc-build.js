@@ -2,13 +2,18 @@ import {calcEventListener} from "./calc-event-listner";
 import {CalcLogic} from "./calc-logic";
 import {calcOption} from "./calc-option";
 import {dataFactory} from "../dataFactory/dataFactory";
+import {generalOptions} from "../generalOtions/generalOptions";
 
 class CalcBuild {
 	constructor(CalcLogicClass) {
 		this.calcLogic = CalcLogicClass;
+
 	}
 
-	buildDomCalc(elementID) {
+	buildDomCalc(elementID, options) {
+        this.orderBtnName = (options.orderBtn !== undefined) ? options.orderBtn : 'Order';
+        this.inquiryBtnName = (options.inquiryBtn !== undefined) ? options.inquiryBtn : 'Inquiry';
+
 		let refElem = document.getElementsByClassName(elementID)[0];
 
 		let calc = `<div class="title-calculator">
@@ -45,17 +50,18 @@ class CalcBuild {
 			<p class="first-order__image"></p>
 			<p class="first-order">First Order</p>
 			<p class="first-order__discount"><span class="discount__border">15% discount<span></p>
-			<div class="calculator__cost-usd">
-			'$ <span id="discount-price">0.00</span>
-			</div>
-			<div class="calculator__cost-full"><span class="white-text">$ <span id="s_f_count_page">0.00</span></span>
+			<div class="calculator__cost-full">
+				<div class="calculator__cost-usd">
+				<span id="discount-price">0.00</span>
+				</div>
+				<span class="white-text">$<span id="s_f_count_page">0.00</span></span>
 			<div class="calculator__cost-full-before"></div></div>
 			</div>
 			<button class="calculator__inquiry-button">
-			<div class="calculator__inquiry-button__text">Inquiry</div>
+			<div class="calculator__inquiry-button__text">${this.inquiryBtnName}</div>
 			</button>
 			<button class="calculator__order-button">
-			<span class="calculator__order-button__text">Order now</span>
+			<span class="calculator__order-button__text">${this.orderBtnName}</span>
 			</button>
 			</form>
 			</div>`;
@@ -64,12 +70,14 @@ class CalcBuild {
 
 	};
 
-	buildButtons() {
+	buildButtons(options) {
 		this.renderButton("service");
 		this.renderButton("level");
 		this.renderRangeSlider();
 		calcEventListener.eventsListner();
 		this.calcLogic.setCountPages();
+
+        // this.calcLogic.setCoupon(options.dsc);
         document.querySelector("div[data-name='Essay']").click();
 		document.querySelector("div[data-name='High School']").click();
 
@@ -318,14 +326,15 @@ class CalcBuild {
 			$select.classList.add("calculator__type-select");
 			$select.setAttribute("id", "lists_service");
 
-			Object.keys(dataFactory.servicesList).forEach(service => {
-				let $selectOption = document.createElement('p');
-				$selectOption.classList.add("calculator__select-option");
-				$selectOption.setAttribute("data-id", dataFactory.servicesList[service].id);
-				$selectOption.setAttribute("data-value", dataFactory.servicesList[service].name);
-				$selectOption.innerHTML = dataFactory.servicesList[service].name;
-				$select.appendChild($selectOption);
-			});
+			for(let service of Object.keys(dataFactory.servicesList)) {
+                let $selectOption = document.createElement('p');
+                $selectOption.classList.add("calculator__select-option");
+                $selectOption.setAttribute("data-id", dataFactory.servicesList[service].id);
+                $selectOption.setAttribute("data-value", dataFactory.servicesList[service].name);
+                $selectOption.innerHTML = dataFactory.servicesList[service].name;
+                $select.appendChild($selectOption);
+			}
+
 
 			$wrapper.appendChild($find);
 			$wrapper.appendChild($select);

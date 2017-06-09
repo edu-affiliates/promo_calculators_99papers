@@ -4,18 +4,23 @@ import { generalOptions } from '../generalOtions/generalOptions';
 import { helper } from '../helper/helper'
 
 export class FastOrder{
-    constructor(elementID){
+    constructor(elementID, options){
+        this.options = options;
         this.dataFactory = dataFactory;
         this.helper = helper;
         this.wrapper = document.getElementById(elementID);
-
-
+        this.dsc = this.options.dsc;
+        this.btn = {
+            name: 'order',
+            type: 'order'
+        };
+        this.btn.type = (this.options.btnType !== undefined) ? this.options.btnType : 'order';
+        this.btn.name = (this.options.btnName !== undefined) ? this.options.btnName : 'order';
         this.buildDomCalc();
 
-        console.log(document.querySelector(`#${elementID} .edu-fast__services`));
+
         this.servicesList = this.wrapper.querySelectorAll(`.edu-fast__services`)[0];
         this.servicesListWrapper = this.wrapper.querySelectorAll(`.edu-fast__list-wrapper`)[0];
-        console.log(this.servicesList);
         this.currentService = this.wrapper.querySelectorAll(`.edu-fast__current`)[0];
         this.orderBtn = this.wrapper.querySelectorAll(`.edu-fast__order-btn`)[0];
         this.input = this.wrapper.querySelectorAll(`.edu-fast__sort-list`)[0];
@@ -23,7 +28,17 @@ export class FastOrder{
         this.buildServicesList();
         const FIRST_SERVICE = dataFactory.allServices.find(service => service.name === "Essay");
         this.chooseService(FIRST_SERVICE.id, FIRST_SERVICE.name);
-        this.servicesListWrapper.style.display = 'none';
+
+        this.closedListStyle = `
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.2s ease-in-out 0s, visibility 0s linear 0.3s, z-index 0s linear 0.01s;`;
+        this.openedListStyle = `
+            opacity: 1;
+            visibility: visible;
+            transition-delay: 0s, 0s, 0.3s;`;
+
+        this.servicesListWrapper.setAttribute('Style', this.closedListStyle);
         this.addEventListeners();
     }
     buildDomCalc() {
@@ -31,12 +46,12 @@ export class FastOrder{
             <div class="edu-fast__form-wrapper">
                 <span class="edu-fast__title">I need</span>
                 <span class="edu-fast__current">Essay</span>
-                <span class="edu-fast__order-btn">Order Now</span>
             </div>
             <div class="edu-fast__list-wrapper">
                 <input class="edu-fast__sort-list" placeholder="Type the Name of Service" type="text">
                 <ul class="edu-fast__services"></ul>
             </div>
+            <span class="edu-fast__order-btn">${this.btn.name}</span>
         `;
 
         this.wrapper.insertAdjacentHTML("afterbegin", fastOrderFormTemplate);
@@ -57,8 +72,23 @@ export class FastOrder{
         this.currentService.setAttribute("data-name", service_name);
         this.currentService.innerHTML = this.helper.inputLengthFilter(service_name, 22, 18);
     }
+    isClickOnList(element){
+
+        let elementClasses = element.classList.toString();
+        let onList = elementClasses.indexOf('edu-fast__current') > -1 || elementClasses.indexOf('edu-fast__list-wrapper') > -1;
+        let onBody = element.tagName === 'BODY';
+
+        if (!onList && !onBody) {
+            this.isClickOnList(element.parentNode)
+        } else if (onBody){
+            this.servicesListWrapper.setAttribute('Style', this.closedListStyle);
+        }
+    }
 
     addEventListeners(){
+        document.body.addEventListener('click', (e) => {
+            this.isClickOnList(e.target);
+        });
         this.currentService.addEventListener('click', currentClick.bind(this));
         this.orderBtn.addEventListener('click', orderClick.bind(this));
         let services = this.servicesList.querySelectorAll('.edu-fast__option');
@@ -69,13 +99,19 @@ export class FastOrder{
         function serviceClick(e){
             let service = e.target.dataset;
             this.chooseService(service.id, service.name);
-            this.servicesListWrapper.style.display = "none";
+            this.servicesListWrapper.setAttribute('Style', this.closedListStyle);
         }
         function currentClick(){
-            this.servicesListWrapper.style.display = (this.servicesListWrapper.style.display === "none") ? "block" : "none";
+
+            let listClosed = this.servicesListWrapper.style.visibility === 'hidden';
+            if (!listClosed) {
+                this.servicesListWrapper.setAttribute('Style', this.closedListStyle);
+            } else {
+                this.servicesListWrapper.setAttribute('Style', this.openedListStyle);
+            }
         }
         function orderClick(){
-            let redirectTo = `${generalOptions.siteMyUrl}/order.html?csi=${this.currentService.dataset.id}`;
+            let redirectTo = `${generalOptions.siteMyUrl}/${this.btn.type}.html?csi=${this.currentService.dataset.id}`;
             if (generalOptions.apiMode !== 'M') {
                 redirectTo += `&rid=${generalOptions.rid}`
             }

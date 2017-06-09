@@ -10,6 +10,7 @@ class CalcOption{
 			'price': 0,
 			'minPages': 1,
 			'maxPages': 30,
+			'dsc': ''
 			// 'typeOfUnits': 'page',
 			// 'siteApiUrl': 'https://api.yoursite.com/',
 			// 'siteUrl': 'https://yoursite.com/',
@@ -22,7 +23,8 @@ class CalcOption{
 		this.memoryStates = {
 			service: 'name',
 			level: 'name',
-			deadline: '15 days +'
+			deadline: '15 days +',
+			discount_amount: '0'
 		};
 
 		this.rangerStates = {

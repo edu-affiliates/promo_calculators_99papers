@@ -1,9 +1,8 @@
 import { generalOptions } from '../generalOtions/generalOptions';
 
 class Helper{
-    constructor(){
+    constructor(){}
 
-    }
     sortList($inputElement, $services) {
         let filter = $inputElement.value.toUpperCase();
         for (let service of $services){
@@ -28,25 +27,17 @@ class Helper{
 
     isDev() {
         let splitedHostname = window.location.hostname.split(".");
-        let isDev = (splitedHostname.indexOf('dev') > -1) || (splitedHostname.indexOf('localhost') > -1);
+        let isDev = (splitedHostname.indexOf('dev') > -1) || (splitedHostname.indexOf('localhost') > -1) || ((splitedHostname.indexOf('185') > -1));
         return isDev;
 
     }
 
-   getCookie(cname) {
-        var name = cname + "=";
-        var ca = document.cookie.split(';');
-        for (var i = 0; i < ca.length; i++) {
-            var c = ca[i];
-            while (c.charAt(0) == ' ') {
-                c = c.substring(1);
-            }
-            if (c.indexOf(name) == 0) {
-                return c.substring(name.length, c.length);
-            }
-        }
-        return "";
-    };
+    getCookie(name) {
+        var matches = document.cookie.match(new RegExp(
+            "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
+        ));
+        return matches ? decodeURIComponent(matches[1]) : '';
+    }
 
     setCookie(cname, cvalue, exdays) {
     var expires;
@@ -57,8 +48,15 @@ class Helper{
     } else {
         expires = 0;
     }
-    let newCookie = cname + "=" + cvalue + "; " + expires + "; path=/; domain=."+generalOptions.hostname+";";
+    // does not work on localhost
+    let newCookie = `${cname}=${cvalue}; ${expires}; path=/; domain=.${generalOptions.hostname}`;
     document.cookie = newCookie;
-};
+
+    };
+
+    isIE(userAgent) {
+        userAgent = userAgent || navigator.userAgent;
+        return userAgent.indexOf("MSIE ") > -1 || userAgent.indexOf("Trident/") > -1 || userAgent.indexOf("Edge/") > -1;
+    }
 }
 export let helper = new Helper();

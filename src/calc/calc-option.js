@@ -33,9 +33,21 @@ class CalcOption{
 
 		this.dataFormatting = {};
 
-		this.servicesFormatting = {};
-	}
-    setDefaultMemoryStates(){
+        this.servicesFormatting = {};
+    }
+
+    setInitialMemoryStatesDeadline(serviceTree) {
+        const service = Object.keys(serviceTree)[0];
+        const level = Object.keys(serviceTree[service].level)[0];
+        const deadlines = Object.keys(serviceTree[service].level[level].deadline);
+        const deadline = deadlines[deadlines.length - 1];
+        /* do not set the values because of breaking functionality select first service on init */
+        // this.memoryStates.service = service;
+        // this.memoryStates.level = level;
+        this.memoryStates.deadline = deadline;
+    }
+
+    setDefaultMemoryStates() {
 
         let services = Object.keys(this.dataFormatting);
         let defaultService = services[0];

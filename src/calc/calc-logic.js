@@ -186,20 +186,21 @@ export class CalcLogic {
 		$elementPlus.addEventListener("click", refreshTarget.bind(this, "plus"));
 		$elementMinus.addEventListener("click", refreshTarget.bind(this, "minus"));
 
-		function refreshTarget(incOrDec) {
-			if (incOrDec == "plus" && calcOption.defaultsOptions.countPages < (calcOption.defaultsOptions.maxPages || 30)) {
-				calcOption.defaultsOptions.countPages += 1;
-				$elementTarget.setAttribute("value", calcOption.defaultsOptions.countPages);
-				$elementTarget.value = calcOption.defaultsOptions.countPages;
-			} else if (incOrDec == "minus" && calcOption.defaultsOptions.countPages > (calcOption.defaultsOptions.minPages || 1)) {
-				calcOption.defaultsOptions.countPages -= 1;
-				$elementTarget.setAttribute("value", calcOption.defaultsOptions.countPages);
-				$elementTarget.value = calcOption.defaultsOptions.countPages;
-			}
-			this.displayPrice();
-		}
-	}
-    hideDiscount(){
+        function refreshTarget(incOrDec) {
+            if (incOrDec == "plus" && calcOption.defaultsOptions.countPages < (calcOption.defaultsOptions.maxPages || 30)) {
+                calcOption.defaultsOptions.countPages = parseInt(calcOption.defaultsOptions.countPages) + 1;
+                $elementTarget.setAttribute("value", calcOption.defaultsOptions.countPages);
+                $elementTarget.value = calcOption.defaultsOptions.countPages;
+            } else if (incOrDec == "minus" && calcOption.defaultsOptions.countPages > (calcOption.defaultsOptions.minPages || 1)) {
+                calcOption.defaultsOptions.countPages = parseInt(calcOption.defaultsOptions.countPages) - 1;
+                $elementTarget.setAttribute("value", calcOption.defaultsOptions.countPages);
+                $elementTarget.value = calcOption.defaultsOptions.countPages;
+            }
+            this.displayPrice();
+        }
+    }
+
+    hideDiscount() {
         let oldPrice = document.querySelector(`.calculator__cost-usd`);
         let calcTitleWithoutDsc = document.querySelector(`.edu-calc__title--hidden-dsc`);
         let calcTitleWithDsc= document.querySelector(`.edu-calc__title--shown-dsc`);

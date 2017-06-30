@@ -84,8 +84,13 @@ export class ComponentsBuilder{
             }).catch(err => console.log(err));
     };
 
-    buildBigCalculator(){
+    buildBigCalculator() {
         Object.assign(calcOption.defaultsOptions, generalOptions);
+
+        /**  on calc init set to memory state value of the deadline from the first element in servicesTree **/
+
+        calcOption.setInitialMemoryStatesDeadline(dataFactory.servicesTrees);
+
         let options = document.querySelector('.edu-calc').dataset;
         this.calcBuild.buildDomCalc("edu-calc", options);
         this.calcBuild.buildButtons(options);

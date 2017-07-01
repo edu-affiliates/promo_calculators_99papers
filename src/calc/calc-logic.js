@@ -133,7 +133,8 @@ export class CalcLogic {
 	}
 	getPrice(){
 		try{
-            calcOption.defaultsOptions.price = dataFactory.servicesTrees[calcOption.memoryStates.service]
+            calcOption.defaultsOptions.price = dataFactory
+				.servicesTrees[calcOption.memoryStates.service]
                 .level[calcOption.memoryStates.level]
                 .deadline[calcOption.memoryStates.deadline]
                 .price;
